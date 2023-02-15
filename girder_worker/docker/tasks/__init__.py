@@ -373,7 +373,8 @@ def _docker_run(task, image, pull_image=True, entrypoint=None, container_args=No
     run_kwargs = {
         'tty': False,
         'volumes': volumes,
-        'detach': True
+        'detach': True,
+        'user': os.environ.get('WORKER_CONTAINER_USER_ID', '1001')
     }
 
     # Allow run args to be overridden,filter out any we don't want to override
