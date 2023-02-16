@@ -374,7 +374,7 @@ def _docker_run(task, image, pull_image=True, entrypoint=None, container_args=No
         'tty': False,
         'volumes': volumes,
         'detach': True,
-        'user': os.environ.get('WORKER_CONTAINER_USER_ID', '1001')
+        # 'user': os.environ.get('WORKER_CONTAINER_USER_ID', '1001')
     }
 
     # Allow run args to be overridden,filter out any we don't want to override
@@ -383,6 +383,9 @@ def _docker_run(task, image, pull_image=True, entrypoint=None, container_args=No
 
     if entrypoint is not None:
         run_kwargs['entrypoint'] = entrypoint
+    if os.environ.get('WORKER_CONTAINER_USER_ID', '1001'):
+        run_kwargs['WORKER_CONTAINER_USER_ID'] = os.environ.get('WORKER_CONTAINER_USER_ID','1001')
+        
 
     container_args, read_streams, write_streams = _handle_streaming_args(container_args)
 
